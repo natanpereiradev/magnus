@@ -164,6 +164,7 @@ A segurança é um aspecto central desta API, implementada através de funções
 
 - Nota: Para a correta utilização da API, certifique-se de que as variáveis de ambiente DB_HOST, DB_USER, DB_PASS, e DB_NAME estão configuradas corretamente no ambiente de execução.
 
+-  O arquivo do databse se encontra no repositório. `databse.php`
 
 ## Configuração do Ambiente Docker
 - Esta aplicação é desenvolvida em PHP na versão 8.1 e utiliza Docker para facilitar a configuração e o gerenciamento do ambiente de desenvolvimento. O ambiente inclui PHP-FPM, Nginx, MySQL, Redis e Memcached.
