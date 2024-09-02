@@ -169,10 +169,10 @@ A segurança é um aspecto central desta API, implementada através de funções
 - Esta aplicação é desenvolvida em PHP na versão 8.1 e utiliza Docker para facilitar a configuração e o gerenciamento do ambiente de desenvolvimento. O ambiente inclui PHP-FPM, Nginx, MySQL, Redis e Memcached.
 ### 1. Dockerfile
 O Dockerfile é utilizado para construir a imagem do PHP-FPM com as extensões necessárias. Abaixo está o conteúdo do Dockerfile:
-
+```dockerfile
 FROM phpdockerio/php:8.1-fpm
 WORKDIR "/application"
-```dockerfile
+
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
         php8.1-memcached \
