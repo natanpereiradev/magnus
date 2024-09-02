@@ -168,10 +168,10 @@ A segurança é um aspecto central desta API, implementada através de funções
 ## Configuração do Ambiente Docker
 ### 1. Dockerfile
 O Dockerfile é utilizado para construir a imagem do PHP-FPM com as extensões necessárias. Abaixo está o conteúdo do Dockerfile:
-
+```dockerfile
 FROM phpdockerio/php:8.1-fpm
 WORKDIR "/application"
-```dockerfile
+
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
         php8.1-memcached \
