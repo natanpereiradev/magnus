@@ -163,3 +163,111 @@ A segurança é um aspecto central desta API, implementada através de funções
 - A função dbConnect() realiza a conexão com o banco de dados MySQL utilizando as credenciais configuradas nas variáveis de ambiente.
 
 - Nota: Para a correta utilização da API, certifique-se de que as variáveis de ambiente DB_HOST, DB_USER, DB_PASS, e DB_NAME estão configuradas corretamente no ambiente de execução.
+
+
+## Configuração do Ambiente Docker
+### 1. Dockerfile
+O Dockerfile é utilizado para construir a imagem do PHP-FPM com as extensões necessárias. Abaixo está o conteúdo do Dockerfile:
+
+FROM phpdockerio/php:8.1-fpm
+WORKDIR "/application"
+```dockerfile
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install \
+        php8.1-memcached \
+        php8.1-mysql \
+        php8.1-redis \
+        php8.1-xdebug \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+```
+
+### 2. Docker Compose
+O arquivo docker-compose.yml define os serviços necessários para o ambiente de desenvolvimento. Aqui está o conteúdo do docker-compose.yml:
+
+```yml
+version: '3.1'
+services:
+    memcached:
+        image: 'memcached:alpine'
+
+    redis:
+        image: redis:latest
+        ports:
+        - "6379:6379"
+
+    mysql:
+        image: 'mysql:8.0'
+        working_dir: /application
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - '.:/application'
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=projeto-magnus
+            - MYSQL_USER=magnus-usr
+            - MYSQL_PASSWORD=usr-magnus
+        ports:
+            - '8002:3306'
+
+    webserver:
+        image: 'nginx:alpine'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '8000:80'
+
+    php-fpm:
+        build: phpdocker/php-fpm
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
+            - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/cli/conf.d/99-overrides.ini'
+        environment:
+            - DB_HOST=mysql
+            - DB_USER=magnus-usr
+            - DB_PASS=usr-magnus
+            - DB_NAME=projeto-magnus
+
+volumes:
+    mysql_data:
+```
+
+### 3. Instruções para Subir o Ambiente
+Para iniciar o ambiente de desenvolvimento, siga estas etapas:
+
+**Construa a Imagem PHP-FPM**
+- Navegue até o diretório onde está localizado o Dockerfile e construa a imagem do PHP-FPM:
+```bash
+docker build -t php-fpm-image -f Dockerfile .
+```
+
+**Suba os Contêineres**
+- Navegue até o diretório onde está localizado o arquivo docker-compose.yml e inicie os serviços:
+
+```bash
+docker-compose up
+```
+
+**Isso irá iniciar os seguintes serviços:**
+- `Memcached`: Contêiner para caching.
+- `Redis`: Contêiner para caching de dados.
+- `MySQL`: Contêiner para o banco de dados.
+- `Webserver` (Nginx): Contêiner para servir os arquivos da aplicação.
+- `PHP-FPM`: Contêiner para executar o PHP.
+
+
+### Acessar a Aplicação
+- A aplicação estará disponível em http://localhost:8000.
+
+**Parar os Contêineres**
+```bash
+docker-compose down
+```
+
+**Volumes Persistentes**
+- Os dados do MySQL são persistidos em um volume nomeado mysql_data. Isso garante que os dados não sejam perdidos quando os contêineres forem recriados.
+
