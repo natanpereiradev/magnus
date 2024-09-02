@@ -29,11 +29,11 @@ Esta API foi desenvolvida para gerenciar usuários em um banco de dados MySQL. A
 4. **Body (Raw, JSON):**
    ```json
    {
-     "first_name": "John",
-     "last_name": "Doe",
-     "email": "john.doe@example.com",
-     "phone": "123456789",
-     "password": "senha123"
+     "first_name": "Natan",
+     "last_name": "Borges",
+     "email": "natanbp@live.com",
+     "phone": "44997731674",
+     "password": "senhaTeste"
    }
 
 **Resposta de Sucesso:**
@@ -56,7 +56,7 @@ Esta API foi desenvolvida para gerenciar usuários em um banco de dados MySQL. A
 
 **Exemplo no Postman:**
 1. **Método:** GET
-2. **URL:** `http://localhost:8000/?metodo=consultarUsuarios&filtroNome=sdad`
+2. **URL:** `http://localhost:8000/?metodo=consultarUsuarios&filtroNome=Natan`
 
 **Resposta do sucesso:**
 
@@ -64,10 +64,10 @@ Esta API foi desenvolvida para gerenciar usuários em um banco de dados MySQL. A
 [
   { 
     "id": 1,
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com",
-    "phone": "123456789"
+    "first_name": "Natan",
+    "last_name": "Borges",
+    "email": "natanbp@live.com",
+    "phone": "44997731674"
   },
   ...
 ]
@@ -98,10 +98,10 @@ Esta API foi desenvolvida para gerenciar usuários em um banco de dados MySQL. A
    ```json
     {
         "id": 1,
-        "first_name": "Jane",
-        "last_name": "Doe",
-        "email": "jane.doe@example.com",
-        "phone": "987654321"
+        "first_name": "Natan",
+        "last_name": "Pereira",
+        "email": "natanbp7@hotmail.com",
+        "phone": "44997731674"
     }
 
 
@@ -164,7 +164,7 @@ A segurança é um aspecto central desta API, implementada através de funções
 
 - Nota: Para a correta utilização da API, certifique-se de que as variáveis de ambiente DB_HOST, DB_USER, DB_PASS, e DB_NAME estão configuradas corretamente no ambiente de execução.
 
--  O arquivo do databse se encontra no repositório. `databse.sql`
+-  O arquivo do databse se encontra no repositório. `databse.php`
 
 ## Configuração do Ambiente Docker
 - Esta aplicação é desenvolvida em PHP na versão 8.1 e utiliza Docker para facilitar a configuração e o gerenciamento do ambiente de desenvolvimento. O ambiente inclui PHP-FPM, Nginx, MySQL, Redis e Memcached.
